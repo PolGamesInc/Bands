@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -21,8 +23,8 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] private AudioClip CloseInventory;
 
     //ChangeSlotArms
-    [Range(1,8)]
-    [SerializeField] private float CurrenArmsSlots = 1f;
+    [Range(0,9)]
+    public float CurrenArmsSlots = 1f;
     [SerializeField] private Image[] ArmsSlots = new Image[8];
 
 
@@ -39,21 +41,94 @@ public class InventorySystem : MonoBehaviour
     }
 
     private void Update()
-    {
-        CurrenArmsSlots = Mathf.Clamp(CurrenArmsSlots, 1f, 8f);
-        CurrenArmsSlots += Input.mouseScrollDelta.y * 1f;
-        
-        for(int i = 0; i < ArmsSlots.Length; i++)
+    { 
+        switch(CurrenArmsSlots)
         {
-            if(i == (int)(CurrenArmsSlots - 1))
+            case 1:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[0];
+                break;
+            case 2:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[1];
+                break;
+            case 3:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[2];
+                break;
+            case 4:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[3];
+                break;
+            case 5:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[4];
+                break;
+            case 6:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[5];
+                break;
+            case 7:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[6];
+                break;
+            case 8:
+                gameObject.GetComponent<InteractiveSystems>().CurrenItemInArms = gameObject.GetComponent<InteractiveSystems>().CurrenArmsSlotsGO[7];
+                break;
+        }
+
+        if (gameObject.GetComponent<InteractiveSystems>().IsSlotsArmsActive == true)
+        {
+            if (Input.GetKeyUp(KeyCode.Alpha1))
             {
-                SetTranperentArmsSlot(i, 150);
+                CurrenArmsSlots = 1;
             }
-            else
+            if (Input.GetKeyUp(KeyCode.Alpha2))
             {
-                SetTranperentArmsSlot(i, 56);
+                CurrenArmsSlots = 2;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
+                CurrenArmsSlots = 3;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                CurrenArmsSlots = 4;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha5))
+            {
+                CurrenArmsSlots = 5;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha6))
+            {
+                CurrenArmsSlots = 6;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha7))
+            {
+                CurrenArmsSlots = 7;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha8))
+            {
+                CurrenArmsSlots = 8;
             }
         }
+
+        CurrenArmsSlots = Mathf.Clamp(CurrenArmsSlots, 1f, 8f);
+        CurrenArmsSlots += Input.mouseScrollDelta.y * -1f;
+
+        if(CurrenArmsSlots == 0)
+        {
+            CurrenArmsSlots = 8;
+        }
+        else if(CurrenArmsSlots == 9)
+        {
+            CurrenArmsSlots = 1;
+        }
+
+            for (int i = 0; i < ArmsSlots.Length; i++)
+            {
+                if (i == (int)(CurrenArmsSlots - 1))
+                {
+                    SetTranperentArmsSlot(i, 150);
+                }
+                else
+                {
+                    SetTranperentArmsSlot(i, 56);
+                }
+            }
 
         if (Input.GetKeyUp(KeyCode.I))
         {

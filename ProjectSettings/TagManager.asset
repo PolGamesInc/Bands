@@ -12,6 +12,13 @@ TagManager:
   - BigChair
   - SlotInventory
   - SlotArms
+  - ATM
+  - ArmsItem
+  - Shop
+  - AKItem
+  - SlotChairs
+  - Diller
+  - ShopAssortment
   layers:
   - Default
   - TransparentFX
